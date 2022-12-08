@@ -9,6 +9,9 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
 import CountStatusBar from "./CountStatusBar.js";
+import 'ag-grid-enterprise';
+import 'ag-grid-community';
+import { LicenseManager } from 'ag-grid-enterprise';
 
 export default {
   name: "App",
@@ -26,9 +29,12 @@ export default {
   },
   components: {
     AgGridVue,
-    // countStatusBar: CountStatusBar
+    // eslint-disable-next-line vue/no-unused-components
+    countStatusBar: CountStatusBar
   },
   beforeMount() {
+    //please add the license key to see the issue
+    LicenseManager.setLicenseKey("licenseKey");
     this.onGridReady();
   },
   methods: {
@@ -36,7 +42,7 @@ export default {
       console.log("grid ready: ", params);
       this.gridOptions = {
         components: {
-          countStatusBar: CountStatusBar
+          countStatusBar: this.CountStatusBar
         }
       }
     }
@@ -47,7 +53,7 @@ export default {
     { make: "Porsche", model: "Boxter", price: 72000 }];
     this.statusBar = {
       statusPanels: [
-        { statusPanel: 'countStatusBar, align: "right",' },
+        { statusPanel: 'countStatusBar', align: "right" },
         {
           statusPanel: 'agTotalAndFilteredRowCountComponent',
           align: 'left',
